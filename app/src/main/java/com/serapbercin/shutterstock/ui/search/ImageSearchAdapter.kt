@@ -1,6 +1,7 @@
 package com.serapbercin.shutterstock.ui.search
 
 import android.content.Context
+import android.support.percent.PercentRelativeLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,12 @@ class ImageSearchAdapter @Inject constructor(private val picasso: Picasso,
     override fun onBindViewHolder(holder: ImageSearchViewHolder?, position: Int) {
         val imageSearchItem = imageSearchList!![position]
         holder!!.searchImageTitle.text = imageSearchItem.description
+
+        val layoutParamsMain = PercentRelativeLayout.LayoutParams(context, null)
+        layoutParamsMain.width = imageSearchItem.assets.preview.weight
+        layoutParamsMain.height = imageSearchItem.assets.preview.height
+
+        holder.searchImage.layoutParams = layoutParamsMain
         picasso.load(imageSearchItem.assets.preview.url)
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.searchImage)

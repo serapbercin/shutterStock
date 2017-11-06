@@ -1,4 +1,4 @@
-package com.serapbercin.shutterstock.ui.categories
+package com.serapbercin.shutterstock.ui.search
 
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.assertion.ViewAssertions
@@ -9,33 +9,35 @@ import com.serapbercin.shutterstock.R
 import com.serapbercin.shutterstock.gsonUpperCamel
 import com.serapbercin.shutterstock.parseFile
 import com.serapbercin.shutterstock.runOnMainSync
-import com.serapbercin.shutterstock.ui.categories.data.CategoriesFormData
+import com.serapbercin.shutterstock.ui.search.data.ImageSearchFormData
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class CategoriesActivityTest {
+class ImageSearchActivityTest {
+
     @Rule
     @JvmField
-    val activityTestRule = ActivityTestRule<CategoriesActivity>(CategoriesActivity::class.java, true)
-
+    val activityTestRule = ActivityTestRule<ImageSearchActivity>(
+            ImageSearchActivity::class.java, true)
 
 
     @Test
-    fun showCategoryList_whenUpdateCategoryListIsCalled() {
-        val categories = createCategoriesResponse("categories_response_success.json")
+    fun showImageSearchList_whenUpdateImageSearchIsCalled() {
+        val imageSearchResponse = createImageSearchResponse(
+                "image_search_response_success.json")
         val activity = activityTestRule.activity
-        runOnMainSync { activity.showCategories(categories.categories) }
-        Espresso.onView((ViewMatchers.withId(R.id.rv_categories)))
+        runOnMainSync { activity.showData(imageSearchResponse.imageSearchListData, false) }
+        Espresso.onView((ViewMatchers.withId(R.id.rv_image_search)))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @Test
     fun showProgress_whenShowProgressIsCalled_thenShowProgressDialog() {
         runOnMainSync { activityTestRule.activity.showDialog() }
-        Espresso.onView(ViewMatchers.withId(R.id.pb_load_categories))
+        Espresso.onView(ViewMatchers.withId(R.id.pb_load_image))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
@@ -43,12 +45,13 @@ class CategoriesActivityTest {
     fun hideProgress_whenHideProgressIsCalledAfterShowProgress_thenHideProgressDialog() {
         runOnMainSync { activityTestRule.activity.showDialog() }
         runOnMainSync { activityTestRule.activity.hideDialog() }
-        Espresso.onView(ViewMatchers.withId(R.id.pb_load_categories))
-                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+        Espresso.onView(ViewMatchers.withId(R.id.pb_load_image))
+                .check(ViewAssertions.matches(ViewMatchers
+                        .withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 
 
-    private fun createCategoriesResponse(fileName: String):
-            CategoriesFormData = fileName parseFile gsonUpperCamel
+    private fun createImageSearchResponse(fileName: String):
+            ImageSearchFormData = fileName parseFile gsonUpperCamel
 
 }

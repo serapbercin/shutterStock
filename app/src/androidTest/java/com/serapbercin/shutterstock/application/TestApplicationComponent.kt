@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = arrayOf(AndroidInjectionModule::class,
+@Component(modules = arrayOf(AndroidInjectionModule::class, TestActivitiesModule::class,
         UtilityModuleTest::class))
 interface TestApplicationComponent {
 

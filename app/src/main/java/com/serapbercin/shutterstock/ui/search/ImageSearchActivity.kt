@@ -20,7 +20,6 @@ import com.serapbercin.shutterstock.ui.categories.CategoriesActivity
 import com.serapbercin.shutterstock.ui.categories.data.Category
 import com.serapbercin.shutterstock.ui.search.data.ImageSearchFormData
 import com.serapbercin.shutterstock.ui.search.data.ImageSearchListData
-import com.serapbercin.shutterstock.ui.search.usecase.ImageSearchPresenter
 import dagger.android.AndroidInjection
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -38,7 +37,7 @@ private const val STATE_IMAGE_SEARCH = "imageSearch"
 class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
 
     @field:[Inject Named(UtilityModule.DEFAULT_GSON)] lateinit var gson: Gson
-    @Inject lateinit var presenter: ImageSearchPresenter
+    @Inject lateinit var presenter: ImageSearchContract.Presenter
     @Inject lateinit var imageSearchAdapter: ImageSearchAdapter
 
     private lateinit var linearLayoutManager: LinearLayoutManager

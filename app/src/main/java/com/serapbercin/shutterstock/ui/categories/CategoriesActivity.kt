@@ -20,7 +20,6 @@ import com.google.gson.reflect.TypeToken
 import com.serapbercin.shutterstock.R
 import com.serapbercin.shutterstock.module.UtilityModule.Companion.DEFAULT_GSON
 import com.serapbercin.shutterstock.ui.categories.data.Category
-import com.serapbercin.shutterstock.ui.categories.usecase.CategoriesPresenter
 import com.serapbercin.shutterstock.ui.search.ImageSearchActivity
 import com.serapbercin.shutterstock.ui.search.OPEN_FROM_CATEGORIES_PAGE_REQUEST_ID
 import com.serapbercin.shutterstock.ui.search.OPEN_FROM_CATEGORIES_PAGE_WITH_SEARCH_QUERY
@@ -37,7 +36,7 @@ private const val STATE_CATEGORY = "category"
 class CategoriesActivity : AppCompatActivity(), CategoriesContract.View {
 
     @field:[Inject Named(DEFAULT_GSON)] lateinit var gson: Gson
-    @Inject lateinit var presenter: CategoriesPresenter
+    @Inject lateinit var presenter: CategoriesContract.Presenter
     @Inject lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
 
