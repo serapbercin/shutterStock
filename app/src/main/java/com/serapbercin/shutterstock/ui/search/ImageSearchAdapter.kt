@@ -27,6 +27,7 @@ class ImageSearchAdapter @Inject constructor(private val picasso: Picasso,
         holder!!.searchImageTitle.text = imageSearchItem.description
 
         val layoutParamsMain = PercentRelativeLayout.LayoutParams(context, null)
+
         layoutParamsMain.width = imageSearchItem.assets.preview.weight
         layoutParamsMain.height = imageSearchItem.assets.preview.height
 
@@ -57,7 +58,7 @@ class ImageSearchAdapter @Inject constructor(private val picasso: Picasso,
     }
 
 
-    fun addAll(imageSearchList: List<ImageSearchListData>) {
+    fun addAll(imageSearchList: MutableList<ImageSearchListData>) {
         for (item in imageSearchList) {
             add(item)
         }
@@ -70,8 +71,8 @@ class ImageSearchAdapter @Inject constructor(private val picasso: Picasso,
         }
     }
 
-    private fun remove(movieItem: ImageSearchListData) {
-        val position = imageSearchList!!.indexOf(movieItem)
+    private fun remove(item: ImageSearchListData) {
+        val position = imageSearchList!!.indexOf(item)
         if (position > -1) {
             imageSearchList!!.removeAt(position)
             notifyItemRemoved(position)
