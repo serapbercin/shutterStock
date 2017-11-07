@@ -12,12 +12,10 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import com.serapbercin.shutterstock.R
 import com.serapbercin.shutterstock.module.UtilityModule
 import com.serapbercin.shutterstock.ui.categories.CategoriesActivity
-import com.serapbercin.shutterstock.ui.categories.data.Category
 import com.serapbercin.shutterstock.ui.search.data.ImageSearchFormData
 import com.serapbercin.shutterstock.ui.search.data.ImageSearchListData
 import dagger.android.AndroidInjection
@@ -32,7 +30,6 @@ import javax.inject.Named
 private const val ITEM_COUNT = 10
 const val OPEN_FROM_CATEGORIES_PAGE_REQUEST_ID = "categoryRequestId"
 const val OPEN_FROM_CATEGORIES_PAGE_WITH_SEARCH_QUERY = "searchQuery"
-private const val STATE_IMAGE_SEARCH = "imageSearch"
 
 class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
 
@@ -64,13 +61,7 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         val categoryId = intent.getStringExtra(OPEN_FROM_CATEGORIES_PAGE_REQUEST_ID)
         val query = intent.getStringExtra(OPEN_FROM_CATEGORIES_PAGE_WITH_SEARCH_QUERY)
 
-
-        if (savedInstanceState != null) {
-            savingAndReloadImageSearchList(savedInstanceState)
-        } else {
-            presenter.start(categoryId, query)
-        }
-
+        presenter.start(categoryId, query)
         presenter.listenSearchChanges()
     }
 
@@ -83,7 +74,7 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
             imageSearchView.clearOnScrollListeners()
         }
         imageSearchAdapter.clear()
-        imageSearchAdapter.addAll(imageSearchList)
+        imageSearchAdapter.addAll(imageSearchListData)
 
         if (imageSearchList.isEmpty()) {
             lastPage = true
@@ -140,20 +131,6 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
             }
         })
     }
-
-    private fun savingAndReloadImageSearchList(savedInstanceState: Bundle) {
-        val imagesJSon = savedInstanceState.getString(STATE_IMAGE_SEARCH)
-        val listType = object : TypeToken<MutableList<Category>>() {}.type
-        imageSearchList = gson.fromJson<MutableList<ImageSearchListData>>(imagesJSon, listType)
-        imageSearchAdapter.addAll(gson.fromJson<MutableList<ImageSearchListData>>(imagesJSon, listType))
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        val listType = object : TypeToken<MutableList<Category>>() {}.type
-        outState!!.putSerializable(STATE_IMAGE_SEARCH, gson.toJson(imageSearchList, listType))
-        super.onSaveInstanceState(outState)
-    }
-
 
     private fun initRecyclerViewAndAdapter() {
         linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,

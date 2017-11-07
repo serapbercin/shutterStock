@@ -1,0 +1,22 @@
+Application
+
+** Architecture **
+* Design Pattern *
+- MVP is used as design pattern.
+- Views have dummy methods just for showing data and producing reactive events like clicks.
+- Models provide data with RxJava Observables.
+- Presenters subscribe observables from models and views to present data to user.
+- For every MVP component, interfaces are provided inside Contract interfaces.
+
+* Dependency Injection *
+- Dagger Android libraries are used to inject activity dependencies.
+- There are Api and Data modules for providing the Retrofit service and model objects.
+- There is activity module for binding view and presenter implementations.
+
+- Also;
+Models and Presenters do not include any view implementation related classes like Activities.
+
+** Testing **
+- Models and Presenter are unit tested.
+- For UI testing, Dagger test graph environment is prepared.
+- Activities only need presenters, so only presenters are mocked at UI testing environment.
